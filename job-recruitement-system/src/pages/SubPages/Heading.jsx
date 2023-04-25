@@ -2,18 +2,10 @@ import { Container, Button } from "react-bootstrap";
 
 function Heading() {
   return (
-    <div
-      className="bg-image vh-100 heading"
-      style={{
-        backgroundImage: `url('https://www.eitrainingcompany.com/wp-content/uploads/2022/03/keeping-momentum-1536x806.jpg')`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-      }}
-    >
+    <div className="bg-image vh-100 heading">
       <div
         className="mask"
         style={{
-          backgroundColor: "hsla(0, 0%, 0%, 0.4)",
           height: "100%",
           marginTop: "1px",
         }}
@@ -29,7 +21,11 @@ function Heading() {
             </h1>
             <p
               className="mb-4"
-              style={{ fontFamily: "Gabriola", fontSize: "25px" }}
+              style={{
+                fontFamily: "Gabriola",
+                fontSize: "25px",
+                color: "black",
+              }}
             >
               In this website job seeker will contact to companies and get job
               by providing information about them.

@@ -1,24 +1,40 @@
 const express = require("express");
+const { User } = require("./models/User.jsx");
 const app = express();
-const mysql = require("mysql2");
-
-// Create Connection
-const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "job_recruitement_system",
-});
 
 app.get("/", (req, res) => {
-  const insertData = `INSERT INTO users (username, email, password) VALUES ("melese", "me@gamail.com", "password");`;
-  db.query(insertData, (err, result) => {
-    if (err) console.log(err);
-    res.send("Welcome melese.");
-    console.log("Data added to the sytem ");
-  });
+  // Create User Table
+  User.sync({ alter: true })
+    .then(async (response) => {
+      console.log("Table created successfully!");
+
+      //Add user to database
+      await User.create({
+        username: "melese",
+        email: "melese@gmail.com",
+        password: "345.",
+      });
+
+      //Find user from DB
+      await User.findAll({
+        where: { password: "Mypassword12345." },
+      });
+
+      // // Update table
+      // const result = User.destroy({
+      //   where: {
+      //     password: "Mypassword123.",
+      //   },
+      // // });
+      // console.log(JSON.stringify(result));
+    })
+    .catch((err) => {
+      console.log(`Error occured: ${err}`);
+    });
+
+  res.send("Welcome to home page.");
 });
 
-app.listen(4000, () => {
-  console.log("It is now working on 4000 let's go man!!");
+app.listen(5000, () => {
+  console.log("Server is listening on 5000");
 });

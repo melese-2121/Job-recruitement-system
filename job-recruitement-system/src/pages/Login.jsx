@@ -43,7 +43,7 @@ function Login() {
               className="form-check-input"
               id="checkbox"
             />
-            <label className="form-check-label" for="checkbox">
+            <label className="form-check-label" type="checkbox">
               Remember Me
             </label>
           </div>
