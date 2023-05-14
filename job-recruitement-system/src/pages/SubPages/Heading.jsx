@@ -1,4 +1,5 @@
 import { Container, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function Heading() {
   return (
@@ -30,7 +31,7 @@ function Heading() {
               In this website job seeker will contact to companies and get job
               by providing information about them.
             </p>
-            <a href="#">
+            <Link to="#">
               <Button
                 variant="text-white mt-3 fw-bold px-5 fs-5 rounded-pill"
                 style={{
@@ -39,7 +40,7 @@ function Heading() {
               >
                 Create Account
               </Button>
-            </a>
+            </Link>
           </Container>
         </div>
       </div>

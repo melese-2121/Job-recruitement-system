@@ -20,7 +20,7 @@ function CarouselSection() {
       <Carousel className="carousel">
         {jobs.map((job) => {
           return (
-            <Carousel.Item interval={3000}>
+            <Carousel.Item interval={3000} key={job.id}>
               <Carousel.Caption>
                 <h2>{job.name}</h2>
                 <p>{job.description}</p>

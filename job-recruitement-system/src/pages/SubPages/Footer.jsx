@@ -1,6 +1,7 @@
 import { FaFacebookF, FaTelegram, FaInstagram } from "react-icons/fa";
 import { Container, Button } from "react-bootstrap";
 import { IconContext } from "react-icons";
+import { Link } from "react-router-dom";
 import "C:/Users/meles/Documents/GitHub/Job-recruitement-system/job-recruitement-system/src/css/Footer.css";
 
 function Footer() {
@@ -32,16 +33,16 @@ function Footer() {
                 <h4> Navigate</h4>
                 <ul>
                   <li>
-                    <a href="#">Home</a>
+                    <Link to="#">Home</Link>
                   </li>
                   <li>
-                    <a href="#">Projects</a>
+                    <Link to="#">Projects</Link>
                   </li>
                   <li>
-                    <a href="#">About</a>
+                    <Link to="#">About</Link>
                   </li>
                   <li>
-                    <a href="#">Contact</a>
+                    <Link to="#">Contact</Link>
                   </li>
                 </ul>
               </div>

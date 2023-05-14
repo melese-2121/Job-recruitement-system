@@ -1,40 +1,16 @@
 const express = require("express");
-const { User } = require("./models/User.jsx");
+const db = require("./models");
+const cors = require("cors");
+
 const app = express();
 
-app.get("/", (req, res) => {
-  // Create User Table
-  User.sync({ alter: true })
-    .then(async (response) => {
-      console.log("Table created successfully!");
+app.use(cors());
+app.use(express.json());
 
-      //Add user to database
-      await User.create({
-        username: "melese",
-        email: "melese@gmail.com",
-        password: "345.",
-      });
+//Routes
+const registerRouter = require("./routes/Users");
+app.use("/users", registerRouter);
 
-      //Find user from DB
-      await User.findAll({
-        where: { password: "Mypassword12345." },
-      });
-
-      // // Update table
-      // const result = User.destroy({
-      //   where: {
-      //     password: "Mypassword123.",
-      //   },
-      // // });
-      // console.log(JSON.stringify(result));
-    })
-    .catch((err) => {
-      console.log(`Error occured: ${err}`);
-    });
-
-  res.send("Welcome to home page.");
-});
-
-app.listen(5000, () => {
-  console.log("Server is listening on 5000");
+app.listen(4000, () => {
+  console.log("Server is listening on port 4000");
 });

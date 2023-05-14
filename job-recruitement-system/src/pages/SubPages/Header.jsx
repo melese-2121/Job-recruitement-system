@@ -1,20 +1,7 @@
-import { BiSearchAlt2 } from "react-icons/bi";
-import {
-  FaFacebookF,
-  FaTelegram,
-  FaInstagram,
-  FaUserAlt,
-} from "react-icons/fa";
+import { FaUserAlt } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useState } from "react";
-import {
-  Modal,
-  Button,
-  Container,
-  Nav,
-  Navbar,
-  NavDropdown,
-} from "react-bootstrap";
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { NavLink, Link } from "react-router-dom";
 import Login from "../Login";
 import "C:/Users/meles/Documents/GitHub/Job-recruitement-system/job-recruitement-system/src/css/Header.css";

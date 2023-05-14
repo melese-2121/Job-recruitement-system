@@ -7,6 +7,9 @@ import News from "./pages/News";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
+import Profile from "./components/Profile";
+import Requirements from "./components/Document";
+
 const App = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +30,14 @@ const App = createBrowserRouter([
   {
     path: "/Login",
     element: <Login />,
+  },
+  {
+    path: "/profile/:id",
+    element: <Profile />,
+  },
+  {
+    path: "/profile/doc",
+    element: <Requirements />,
   },
   {
     path: "/*",

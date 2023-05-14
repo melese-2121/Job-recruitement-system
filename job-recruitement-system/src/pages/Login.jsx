@@ -1,9 +1,59 @@
-import { Container } from "react-bootstrap";
+import { useState, useRef, useEffect } from "react";
 import "../css/Login.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const [userLogin, setUserLogin] = useState({ username: "", password: "" });
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const usernameRef = useRef();
+  const navigate = useNavigate();
+
+  // Event handling functions
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(`http://localhost:4000/users/getUser`, {
+        username: userLogin.username,
+        password: userLogin.password,
+      })
+      .then((response) => {
+        if (response.data == "") {
+          setError(true);
+          setErrorMessage(response.data);
+        } else {
+          setUserLogin({ username: "", password: "" });
+          navigate(`/Profile/${response.data[0].username}`);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.error(error.response.data);
+          console.error(error.response.status);
+          console.error(error.response.headers);
+        } else if (error.request) {
+          console.error(error.request);
+        } else {
+          console.error("Error", error.message);
+        }
+      });
+  };
+
+  useEffect(() => {
+    usernameRef.current.focus(null);
+  }, []);
+
+  function handleChange(e) {
+    setUserLogin({
+      ...userLogin,
+      [e.target.name]: e.target.value,
+    });
+  }
+
   return (
-    <Container fluid>
+    <>
       <div className="row content">
         <div className="col-md-6">
           <img
@@ -18,44 +68,44 @@ function Login() {
             }}
           />
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group mb-4">
             <input
-              type="email"
-              placeholder="Email"
-              name="email"
+              type="text"
+              value={userLogin.username}
+              onChange={handleChange}
+              placeholder="Username"
+              name="username"
+              ref={usernameRef}
               className="form-control"
+              required
+              autoComplete="off"
             />
           </div>
           <div className="form-group mb-4">
             <input
               type="password"
+              value={userLogin.password}
+              onChange={handleChange}
               placeholder="Password"
               name="password"
+              required
               className="form-control"
+              autoComplete="off"
             />
-          </div>
-          <div className="form-group form-check mb-2 mt-2">
-            <input
-              type="checkbox"
-              name="checkbox"
-              style={{ cursor: "pointer" }}
-              className="form-check-input"
-              id="checkbox"
-            />
-            <label className="form-check-label" type="checkbox">
-              Remember Me
-            </label>
           </div>
           <button
-            className="btn btn-outline-success mt-1"
+            className="btn btn-outline-success mt-3"
             style={{ width: "100%" }}
           >
             Login
           </button>
         </form>
+        <p style={{ color: "red", marginTop: "5%" }}>
+          {error ? errorMessage : ""}
+        </p>
       </div>
-    </Container>
+    </>
   );
 }
 
