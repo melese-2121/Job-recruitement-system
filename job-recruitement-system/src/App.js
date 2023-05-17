@@ -9,6 +9,11 @@ import Login from "./pages/Login";
 
 import Profile from "./components/Profile";
 import Requirements from "./components/Document";
+import Admin from "./components/Admin";
+import AddCompany from "./components/AddCompany";
+import SeeCompany from "./components/SeeCompany";
+import NewCompReq from "./components/NewCompReq";
+import Org from "./components/Org";
 
 const App = createBrowserRouter([
   {
@@ -38,6 +43,26 @@ const App = createBrowserRouter([
   {
     path: "/profile/doc",
     element: <Requirements />,
+  },
+  {
+    path: "/admin",
+    element: <Admin />,
+  },
+  {
+    path: "/admin/companies/add",
+    element: <AddCompany />,
+  },
+  {
+    path: "/admin/companies/see",
+    element: <SeeCompany />,
+  },
+  {
+    path: "/admin/companies/req",
+    element: <NewCompReq />,
+  },
+  {
+    path: "/orgs",
+    element: <Org />,
   },
   {
     path: "/*",

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "../css/Login.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [userLogin, setUserLogin] = useState({ username: "", password: "" });
@@ -103,6 +103,9 @@ function Login() {
         </form>
         <p style={{ color: "red", marginTop: "5%" }}>
           {error ? errorMessage : ""}
+        </p>
+        <p>
+          Go to my org <Link to="/orgs/login"> sign in</Link>
         </p>
       </div>
     </>

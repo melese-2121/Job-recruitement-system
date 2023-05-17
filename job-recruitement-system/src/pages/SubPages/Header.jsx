@@ -20,7 +20,7 @@ function Header() {
   };
 
   return (
-    <Navbar expand="lg" className="navbar">
+    <Navbar expand="lg" className="navbar-area">
       <Container fluid>
         <Container className="logo-container" fluid>
           <Navbar.Brand className="fs-2 fw-bold text-info" href="#home">
