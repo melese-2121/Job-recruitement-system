@@ -27,30 +27,26 @@ const register = async (req, res) => {
     res.json("Interval server error, please try again later.");
   }
 };
-
 const login = async (req, res) => {
-  const username = await req.body.username;
+  const user = req.body;
 
-  if (username == "") {
-    res.send("Hey you welcome, You must provide username and password!");
-  } else {
-    const hashedPWD = await User.findOne({ where: { username: username } })
-      .password;
-    let result = false;
-    bcrypt.compare(username, hashedPWD, (err, res) => {
-      result = res;
+  try {
+    const targetUser = await User.findOne({
+      where: { username: user.username },
     });
-    if (result) {
-      const user = await User.findAll({
-        where: {
-          username: username,
-        },
-      });
-    } else {
-      res.send("Hey you welcome, You must provide username and password!");
-    }
-
-    res.send(user);
+    const hashedPWD = targetUser.password;
+    await bcrypt.compare(user.password, hashedPWD, async (err, response) => {
+      if (response) {
+        const dbUser = await User.findOne({
+          where: { username: user.username },
+        });
+        res.send({ user: dbUser });
+      } else {
+        res.send("User not found");
+      }
+    });
+  } catch (error) {
+    error && res.send("User not found");
   }
 };
 

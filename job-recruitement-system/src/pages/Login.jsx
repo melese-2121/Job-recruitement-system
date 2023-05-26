@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "../css/Login.css";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Login() {
   const [userLogin, setUserLogin] = useState({ username: "", password: "" });
@@ -13,6 +13,7 @@ function Login() {
   // Event handling functions
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError(false);
 
     axios
       .post(`http://localhost:4000/users/getUser`, {
@@ -20,24 +21,19 @@ function Login() {
         password: userLogin.password,
       })
       .then((response) => {
-        if (response.data == "") {
-          setError(true);
-          setErrorMessage(response.data);
+        if (response.data.user !== undefined) {
+          setError(false);
+          setUserLogin({ username: "", password: "" });
+          navigate(`/Profile/${response.data.user.username}`);
         } else {
           setUserLogin({ username: "", password: "" });
-          navigate(`/Profile/${response.data[0].username}`);
+          setError(true);
+          setErrorMessage(response.data);
         }
       })
-      .catch((error) => {
-        if (error.response) {
-          console.error(error.response.data);
-          console.error(error.response.status);
-          console.error(error.response.headers);
-        } else if (error.request) {
-          console.error(error.request);
-        } else {
-          console.error("Error", error.message);
-        }
+      .catch((err) => {
+        setError(!error);
+        setErrorMessage("Error occured");
       });
   };
 
@@ -94,9 +90,14 @@ function Login() {
               autoComplete="off"
             />
           </div>
+          {/* <button
+            
+          > */}
           <button
             className="btn btn-outline-success mt-3"
             style={{ width: "100%" }}
+            type="submit"
+            reloadDocument
           >
             Login
           </button>
@@ -105,7 +106,7 @@ function Login() {
           {error ? errorMessage : ""}
         </p>
         <p>
-          Go to my org <Link to="/orgs/login"> sign in</Link>
+          Go to my org <a href="/orgs/login"> sign in</a>
         </p>
       </div>
     </>

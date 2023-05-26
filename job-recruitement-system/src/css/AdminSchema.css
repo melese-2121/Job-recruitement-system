@@ -70,6 +70,14 @@ button:disabled {
   opacity: 0.35;
 }
 
-div {
-  margin-top: 20px;
+.success-msg {
+  color: green;
+}
+.err-msg {
+  color: red;
+}
+
+.msg {
+  text-align: center;
+  margin-top: 2%;
 }

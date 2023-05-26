@@ -3,14 +3,32 @@ import AdminNavigation from "./subComponents/AdminNavigation";
 import { useFormik } from "formik";
 import { basicSchema } from "C:/Users/meles/Documents/GitHub/Job-recruitement-system/job-recruitement-system/src/schemas";
 import "../css/AdminSchema.css";
+import { useState } from "react";
+import axios from "axios";
 
 function AddCompany() {
-  // On submit handler
-  const handleSubmit = async (values, actions) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  const [errMsg, setErrMsg] = useState("");
+  const [isResSuccess, setIsResSuccess] = useState(false);
 
-    // Reset form
-    actions.resetForm();
+  // Handle submitting the form data
+  const handleSubmit = async (values, actions) => {
+    try {
+      new Promise((resolve) => setTimeout(resolve, 2000));
+      await axios
+        .post("http://localhost:4000/admin/addOrg", {
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        })
+        .then((response) => {
+          setErrMsg(response.data[0]);
+          setIsResSuccess(response.data[1]);
+
+          actions.resetForm();
+        });
+    } catch (error) {
+      error && setErrMsg("Error occured, please try again.");
+    }
   };
 
   const formik = useFormik({
@@ -51,6 +69,7 @@ function AddCompany() {
             <p className="error">{formik.errors.name}</p>
           )}
         </div>
+
         <div>
           <label htmlFor="email">Company Email: </label>
           <input
@@ -111,6 +130,9 @@ function AddCompany() {
           Save
         </button>
       </form>
+      <p className={isResSuccess ? "success-msg msg" : "err-msg msg"}>
+        {errMsg}
+      </p>
     </Container>
   );
 }

@@ -2,23 +2,13 @@
 :root {
   --navbar-width: 300px;
   --color-light: #fff;
+  background-color: black;
 }
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-}
-
-.whole-container {
-  padding: 15px;
-}
-
-.area-container {
-  display: flex;
-  justify-content: space-between;
-  box-shadow: 0px 0px 30px 5px rgb(150, 164, 184);
-  overflow: hidden;
 }
 
 main {

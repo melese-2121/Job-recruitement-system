@@ -13,7 +13,11 @@ import Admin from "./components/Admin";
 import AddCompany from "./components/AddCompany";
 import SeeCompany from "./components/SeeCompany";
 import NewCompReq from "./components/NewCompReq";
-import Org from "./components/Org";
+import OrgsLogin from "./components/OrgsLogin";
+import OrgsProfile from "./components/OrgsProfile";
+import Post_job from "./components/Post_job";
+import View_job from "./components/View_job";
+import News_job from "./components/News_job";
 
 const App = createBrowserRouter([
   {
@@ -61,8 +65,24 @@ const App = createBrowserRouter([
     element: <NewCompReq />,
   },
   {
-    path: "/orgs",
-    element: <Org />,
+    path: "/orgs/login",
+    element: <OrgsLogin />,
+  },
+  {
+    path: "/orgs/:name",
+    element: <OrgsProfile />,
+  },
+  {
+    path: "/orgs/post",
+    element: <Post_job />,
+  },
+  {
+    path: "/orgs/view",
+    element: <View_job />,
+  },
+  {
+    path: "/orgs/news",
+    element: <News_job />,
   },
   {
     path: "/*",
