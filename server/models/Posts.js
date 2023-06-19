@@ -14,19 +14,23 @@ module.exports = (sequelize, DataTypes) => {
     departement: {
       type: DataTypes.STRING,
       allowNull: false,
-      default: "Other",
+      defaultValue: "Other",
     },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     outdate: {
-      type: DataTypes.STRING,
-      default: "2023-05-25",
+      type: DataTypes.DATEONLY,
+      defaultValue: DataTypes.NOW,
     },
     numberOfWorkers: {
       type: DataTypes.INTEGER,
-      default: 5,
+      defaultValue: 5,
+    },
+    min_cgpa: {
+      type: DataTypes.FLOAT,
+      defaultValue: 2.2,
     },
   });
 

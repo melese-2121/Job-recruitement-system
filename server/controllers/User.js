@@ -40,7 +40,10 @@ const login = async (req, res) => {
         const dbUser = await User.findOne({
           where: { username: user.username },
         });
-        res.send({ user: dbUser });
+
+        req.session.username = dbUser.username;
+        console.log(req.session.username);
+        res.json({ user: dbUser, username: req.session.username, login: true });
       } else {
         res.send("User not found");
       }
@@ -49,5 +52,12 @@ const login = async (req, res) => {
     error && res.send("User not found");
   }
 };
+const cookies = (req, res) => {
+  if (req.session.username) {
+    res.json({ valid: true, username: req.session.username });
+  } else {
+    res.json({ valid: false });
+  }
+};
 
-module.exports = { register, login };
+module.exports = { register, login, cookies };

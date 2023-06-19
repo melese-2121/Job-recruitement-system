@@ -2,7 +2,7 @@ const { Org } = require("../models");
 const bcrypt = require("bcrypt");
 
 const registerOrg = async (req, res) => {
-  const newOrg = await req.body;
+  const newOrg = req.body;
   let isPWDTaken = false;
 
   try {

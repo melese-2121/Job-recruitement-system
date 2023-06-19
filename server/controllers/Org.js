@@ -9,6 +9,7 @@ const getOrg = async (req, res) => {
     if (org !== null) {
       await bcrypt.compare(data.password, org.password, function (err, result) {
         if (result) {
+          req.session.orgId = org.id;
           res.json(["Correct Login", true, org]);
         } else {
           res.json(["Incorrect Login", false]);
@@ -20,6 +21,14 @@ const getOrg = async (req, res) => {
   } catch (error) {
     res.json("Internal server error!");
   }
+};
+
+//Find company by primary key
+const findOrgByPk = async (req, res) => {
+  const PK = req.body.PK;
+
+  const org = await Org.findByPk(PK);
+  res.json({ org });
 };
 
 //Add job
@@ -34,8 +43,6 @@ const postJob = async (req, res) => {
 const editJob = async (req, res) => {
   const editData = req.body;
   const editedId = req.params.id;
-
-  console.log(editedId)
 
   await Post.update(editData, {
     where: {
@@ -54,7 +61,6 @@ const deleteRecentJob = async (req, res) => {
       where: deletedJob,
     });
 
-    console.log(response);
     res.send("message");
   } catch (error) {
     res.send("Job not deleted.");
@@ -75,4 +81,21 @@ const findJob = async (req, res) => {
   }
 };
 
-module.exports = { getOrg, postJob, deleteRecentJob, editJob, findJob };
+//Find cookies data
+const orgCookies = (req, res) => {
+  if (req.session.orgId) {
+    res.json({ valid: true, orgId: req.session.orgId });
+  } else {
+    res.json({ valid: false });
+  }
+};
+
+module.exports = {
+  getOrg,
+  postJob,
+  deleteRecentJob,
+  editJob,
+  findJob,
+  orgCookies,
+  findOrgByPk,
+};

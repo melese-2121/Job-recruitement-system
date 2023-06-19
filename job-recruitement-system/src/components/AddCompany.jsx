@@ -13,7 +13,8 @@ function AddCompany() {
   // Handle submitting the form data
   const handleSubmit = async (values, actions) => {
     try {
-      new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log(values);
+      // new Promise((resolve) => setTimeout(resolve, 2000));
       await axios
         .post("http://localhost:4000/admin/addOrg", {
           name: values.name,
@@ -121,6 +122,23 @@ function AddCompany() {
           {formik.errors.repeatPWD && formik.touched.repeatPWD && (
             <p className="error">{formik.errors.repeatPWD}</p>
           )}
+        </div>
+        <div>
+          <label for="image" class="form-label">
+            Upload Image
+          </label>
+          <input
+            class="form-control form-control-md"
+            style={{
+              borderRadius: "10px",
+              fontSize: "20px",
+              paddingLeft: "5px",
+            }}
+            id="image"
+            onChange={(e) => {}}
+            type="file"
+            required
+          />
         </div>
         <button
           className="admin-btn"

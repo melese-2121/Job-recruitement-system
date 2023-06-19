@@ -4,7 +4,8 @@ import OrgNavigation from "./subComponents/OrgNavigation";
 import { PostJobSchema } from "../schemas/PostJobSchema";
 import "../css/PostJOb.css";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Post_job() {
   const [msg, setMsg] = useState("");
@@ -15,10 +16,30 @@ function Post_job() {
     description: "",
     departement: "Health Care",
     outdate: "2023-05-25",
+    min_cgpa: 2.2,
   });
   const [twoStates, setTwoStates] = useState({ departement: "", outdate: "" });
   const [showEditForm, setShowEditForm] = useState(false);
   const [id, setId] = useState(-1);
+  const navigate = useNavigate();
+  const [orgId, setOrgId] = useState("");
+
+  axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/org/orgCookies")
+      .then((response) => {
+        if (response.data.valid) {
+          setOrgId(response.data.orgId);
+        } else {
+          navigate("/orgs/login");
+        }
+      })
+      .catch((err) => {
+        navigate("/orgs/login");
+      });
+  }, []);
 
   // Handle submitting the form data
   const handleSubmit = async (values, actions) => {
@@ -27,6 +48,7 @@ function Post_job() {
       title: values.title,
       description: values.description,
       numberOfWorkers: values.numberOfWorkers,
+      min_cgpa: values.min_cgpa,
     });
     await axios
       .post("http://localhost:4000/org/postJob", {
@@ -35,6 +57,8 @@ function Post_job() {
         description: values.description,
         outdate: values.outdate,
         numberOfWorkers: values.numberOfWorkers,
+        OrgId: orgId,
+        min_cgpa: values.min_cgpa,
       })
       .then(function (response) {
         setRecentlyPosted({
@@ -130,9 +154,9 @@ function Post_job() {
         <Formik
           initialValues={{
             title: "",
-            departement: "",
+            departement: "Other",
             description: "",
-            outdate: "",
+            outdate: "2023-05-25",
             numberOfWorkers: "",
           }}
           validationSchema={PostJobSchema}
@@ -155,19 +179,13 @@ function Post_job() {
                   name="departement"
                   className="form-select"
                   aria-label="Health Care"
-                  onChange={(e) => {
-                    setRecentlyPosted({
-                      ...recentlyPosted,
-                      departement: e.target.value,
-                    });
-                  }}
                   style={{ boxShadow: "none" }}
                 >
+                  <option>Other</option>
                   <option>Health Care</option>
                   <option>Computer Science</option>
                   <option>Engineering</option>
                   <option>Politics</option>
-                  <option>Other</option>
                 </Field>
               </div>
               <div>
@@ -186,17 +204,7 @@ function Post_job() {
               </div>
               <div>
                 <label htmlFor="outdate">Outdate</label>
-                <Field
-                  id="outdate"
-                  name="outdate"
-                  type="date"
-                  onChange={(e) => {
-                    setRecentlyPosted({
-                      ...recentlyPosted,
-                      outdate: e.target.value,
-                    });
-                  }}
-                />
+                <Field id="outdate" name="outdate" type="date" />
                 <div className="error">
                   {errors.outdate && touched.outdate ? (
                     <p>{errors.outdate}</p>
@@ -213,6 +221,15 @@ function Post_job() {
                 <div className="error">
                   {errors.numberOfWorkers && touched.numberOfWorkers ? (
                     <p>{errors.numberOfWorkers}</p>
+                  ) : null}
+                </div>
+              </div>
+              <div>
+                <label htmlFor="min-cgpa">Minimum CGPA</label>
+                <Field id="min-cgpa" name="min_cgpa" type="number" />
+                <div className="error">
+                  {errors.min_cgpa && touched.min_cgpa ? (
+                    <p>{errors.min_cgpa}</p>
                   ) : null}
                 </div>
               </div>
@@ -412,6 +429,15 @@ function Post_job() {
                       <div className="error">
                         {errors.numberOfWorkers && touched.numberOfWorkers ? (
                           <p>{errors.numberOfWorkers}</p>
+                        ) : null}
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="min-cgpa">Number of workers</label>
+                      <Field id="min-cgpa" name="min_cgpa" type="number" />
+                      <div className="error">
+                        {errors.min_cgpa && touched.min_cgpa ? (
+                          <p>{errors.min_cgpa}</p>
                         ) : null}
                       </div>
                     </div>

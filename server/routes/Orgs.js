@@ -5,6 +5,8 @@ const {
   deleteRecentJob,
   editJob,
   findJob,
+  orgCookies,
+  findOrgByPk,
 } = require("../controllers/Org");
 
 const router = express.Router();
@@ -15,6 +17,9 @@ router.post("/getOrg", getOrg);
 //Post new job
 router.post("/postJob", postJob);
 
+//Return cookies data
+router.get("/orgCookies", orgCookies);
+
 //Delete recent job
 router.delete("/deleteRecentJob", deleteRecentJob);
 
@@ -23,5 +28,8 @@ router.put("/editJob/:id", editJob);
 
 //Find job
 router.post("/findJob", findJob);
+
+//Find job
+router.post("/findOrg", findOrgByPk);
 
 module.exports = router;

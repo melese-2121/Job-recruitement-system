@@ -8,6 +8,8 @@ function OrgsLogin() {
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
 
+  axios.defaults.withCredentials = true;
+
   // Handle submitting the form data
   const handleSubmit = async (values, actions) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -74,7 +76,7 @@ function OrgsLogin() {
         </button>
       </form>
 
-      <p>{msg && msg}</p>
+      <p style={{ backgoundColor: "red" }}>{msg && msg}</p>
     </Container>
   );
 }

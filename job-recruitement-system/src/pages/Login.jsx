@@ -10,6 +10,8 @@ function Login() {
   const usernameRef = useRef();
   const navigate = useNavigate();
 
+  axios.defaults.withCredentials = true;
+
   // Event handling functions
   const handleSubmit = (e) => {
     e.preventDefault();

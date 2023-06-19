@@ -1,5 +1,4 @@
 import { Container, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 function Heading() {
   return (
@@ -11,14 +10,19 @@ function Heading() {
           marginTop: "1px",
         }}
       >
-        <div className="d-flex justify-content-center align-items-center h-100 pt-1">
-          <Container
-            className="text-white text-center"
-            style={{ width: "200%", marginBottom: "15%" }}
-            fluid
-          >
-            <h1 className="mb-3 heading-title">
-              Join us and contact companies to get a job!
+        <div className="d-flex  h-100 pt-1">
+          <Container className="text-white  " fluid>
+            <h1
+              className="mb-3 heading-title"
+              style={{
+                color: "blue",
+                marginTop: "20%",
+                marginLeft: "5%",
+                fontWeight: "bolder",
+                fontSize: "60px",
+              }}
+            >
+              WANT TO GET A JOB ?
             </h1>
             <p
               className="mb-4"
@@ -26,21 +30,12 @@ function Heading() {
                 fontFamily: "Gabriola",
                 fontSize: "25px",
                 color: "black",
+                marginLeft: "20px",
               }}
             >
               In this website job seeker will contact to companies and get job
               by providing information about them.
             </p>
-            <Link to="#">
-              <Button
-                variant="text-white mt-3 fw-bold px-5 fs-5 rounded-pill"
-                style={{
-                  backgroundColor: `rgb(0, 156, 55)`,
-                }}
-              >
-                Create Account
-              </Button>
-            </Link>
           </Container>
         </div>
       </div>

@@ -27,11 +27,14 @@ function Header() {
             LOGO
           </Navbar.Brand>
         </Container>
-        <Container className="nav-container" style={{ marginLeft: "5%" }} fluid>
+        <Container
+          className="nav-container"
+          style={{ marginLeft: "15%" }}
+          fluid
+        >
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
-              className="me-auto my-2 my-lg-0"
               style={{ maxHeight: "100px", displayContent: "space-between" }}
               navbarScroll
             >
@@ -39,6 +42,7 @@ function Header() {
                 style={{
                   justifyContent: "space-between",
                   marginTop: "7px",
+                  marginLeft: "50%",
                 }}
               >
                 <NavLink to="/" style={navStyling}>

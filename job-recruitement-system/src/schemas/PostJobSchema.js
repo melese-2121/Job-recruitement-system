@@ -17,4 +17,7 @@ export const PostJobSchema = yup.object().shape({
     .integer("Number of workers must be integer.")
     .required("Number of workers is required field."),
   outdate: yup.date().default(() => new Date()),
+  min_cgpa: yup
+    .number("CGPA must be a number")
+    .positive("CGPA must be positive number."),
 });

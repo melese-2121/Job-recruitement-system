@@ -22,5 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  Org.associate = (models) => {
+    Org.hasMany(models.Post, { onDelete: "cascade" });
+  };
+
   return Org;
 };
