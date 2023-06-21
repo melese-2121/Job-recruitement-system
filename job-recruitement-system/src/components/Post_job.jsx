@@ -233,13 +233,15 @@ function Post_job() {
                   ) : null}
                 </div>
               </div>
-              <button
-                className="admin-btn"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Submit
-              </button>
+              <div>
+                <button
+                  className="admin-btn"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </button>
+              </div>
             </Form>
           )}
         </Formik>

@@ -3,10 +3,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { BiArrowBack } from "react-icons/bi";
+import { MdOutlineReadMore } from "react-icons/md";
 import Tesseract from "tesseract.js";
 import { Formik, Form, Field } from "formik";
+import Congratulation from "./Congratulation";
+import "../css/Effects.css";
 
-function Job({ jobData, index, username }) {
+function Job({ jobData, username }) {
   const [org, setOrg] = useState({});
   const [document, setDocument] = useState({
     username: username,
@@ -22,6 +25,7 @@ function Job({ jobData, index, username }) {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [succesMsg, setSuccessMsg] = useState("");
+  const [isCorrectCGPA, setIsCorrectCGPA] = useState(false);
   const navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
@@ -50,16 +54,24 @@ function Job({ jobData, index, username }) {
         }
       },
     })
+      .catch((err) => {
+        setErrMsg(
+          "Error occured while reading image, please provide clear image"
+        );
+        navigate(`/profile/${username}`);
+      })
       .then((result) => {
-        console.log(jobData);
-        console.log(document.departement);
+        let CGPAText = result.data.text.toUpperCase().trim();
+        let cgpaCheck = CGPAText.includes(`CGPA:${document.cgpa}`);
+
         if (
           (document.cgpa > 0) &
-          (document.min_cgpa <= 4) &
+          (document.cgpa <= 4) &
           (document.cgpa >= jobData.min_cgpa) &
-          (document.departement.toUpperCase() ===
+          (document.departement.toUpperCase() ==
             jobData.departement.toUpperCase())
         ) {
+          setSuccess(true);
           axios
             .post("http://localhost:4000/worker_org/add_worker_org", {
               username: username,
@@ -68,27 +80,17 @@ function Job({ jobData, index, username }) {
               why_apply_info: document.infoText,
             })
             .then((response) => {
-              setSuccess(true);
               setSuccessMsg(
-                `Congratulation!!! you are accepted to work with ${org.name}. You can contact them with address provided below for more information.`
+                `Congratulation!!! you are accepted to work with ${org.name}.`
               );
             })
             .catch((err) => {
-              navigate(`/profile/${username}`);
+              setIsLoading(false);
             });
         } else {
-          navigate(`/profile/${username}`);
           setErrMsg("Request is not successfull");
         }
-      })
-      .catch((err) => {
-        setErrMsg(
-          "Error occured while reading image, please provide clear image"
-        );
-        navigate(`/profile/${username}`);
       });
-
-    console.log(text);
   };
 
   return (
@@ -101,15 +103,44 @@ function Job({ jobData, index, username }) {
       }}
     >
       <div
-        style={{ borderStyle: "ridge", padding: "5px", borderRadius: "10px" }}
+        style={{ borderStyle: "ridge", padding: "3px", borderRadius: "10px" }}
       >
-        <img
-          src="https://thumbs.dreamstime.com/b/colorful-acrylic-ink-water-isolated-white-abstract-background-color-explosion-liquid-cloud-motion-91873826.jpg"
-          alt="Image"
-          width="100%"
-          height="100%"
-          style={{ borderRadius: "5px" }}
-        />
+        <div className="img-wrapper">
+          <div className="img-cont">
+            <img
+              src="https://thumbs.dreamstime.com/b/colorful-acrylic-ink-water-isolated-white-abstract-background-color-explosion-liquid-cloud-motion-91873826.jpg"
+              alt="Image"
+              width="100%"
+              height="100%"
+              style={{ borderRadius: "5px", display: "block", margin: "auto" }}
+            />
+
+            <div
+              className="button-cont mx-0 my-0"
+              style={{ width: "100%", height: "100%" }}
+            >
+              <button
+                className="btn btn-outline-info mt-5 px-4"
+                data-bs-toggle="modal"
+                data-bs-target="#orgModal"
+                onClick={() => {
+                  console.log(jobData);
+                  console.log(ondragend);
+                }}
+              >
+                SEE MORE
+                <MdOutlineReadMore
+                  style={{
+                    fontSize: "30px",
+                    fontStyle: "italic",
+                    paddingLeft: "5px",
+                    color: "white",
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+        </div>
         <h5
           style={{
             marginTop: "20px",
@@ -153,31 +184,22 @@ function Job({ jobData, index, username }) {
                       color: "white",
                     }}
                   >
-                    {isLoading && (
-                      <>
-                        <p
-                          className="text-center py-3 mt-1"
-                          style={{
-                            color: "green",
-                            fontSize: "30px",
-                            fontWeight: "bold",
-                            fontStyle: "italic",
-                          }}
-                        >
-                          Wait the response{" "}
-                          <span style={{ color: "white" }}> {progress} </span>%
-                        </p>
-                        {/* <progress
-                          value={progress}
-                          max="100"
-                          style={{ marginLeft: "35%", width: "400px" }}
-                        >
-                          {progress}%
-                        </progress> */}
-                      </>
+                    {isLoading && !success && (
+                      <p
+                        className="text-center py-3 mt-1"
+                        style={{
+                          color: "green",
+                          fontSize: "30px",
+                          fontWeight: "bold",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        Wait the response
+                        <span style={{ color: "white" }}> {progress}</span>%
+                      </p>
                     )}
                     {!isLoading && !text && (
-                      <div className="d-flex justify-content-around">
+                      <div className="d-flex justify-content-around ">
                         <div style={{ width: "70%" }}>
                           <Formik>
                             <Form onSubmit={handleSubmit}>
@@ -317,34 +339,6 @@ function Job({ jobData, index, username }) {
                             </Form>
                           </Formik>
                         </div>
-                        <div>
-                          <div
-                            className="card"
-                            style={{
-                              width: "80%",
-                              height: "550px",
-                              marginTop: "30px",
-                              marginRight: "5%",
-                            }}
-                          >
-                            <img
-                              className="card-img-top"
-                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfwAKKF8Rfk9FadsGqyKSuzB0s9Lyv-fBF7w&usqp=CAU"
-                              alt="Google image"
-                            />
-                            <div className="card-body">
-                              <h5 className="card-title">{org.name}</h5>
-                              <p className="card-text">
-                                Some quick example text to build on the card
-                                title and make up the bulk of the card's
-                                content.
-                              </p>
-                              <a href="#" className="btn btn-primary">
-                                Go somewhere
-                              </a>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     )}
 
@@ -352,8 +346,9 @@ function Job({ jobData, index, username }) {
                       <p style={{ color: "red", textAlign: "center" }}>
                         {errMsg && errMsg}
                       </p>
+
                       <p style={{ color: "green", textAlign: "center" }}>
-                        {succesMsg && succesMsg}
+                        {success && <Congratulation />}
                       </p>
                     </div>
                   </div>
@@ -366,11 +361,120 @@ function Job({ jobData, index, username }) {
                     type="button"
                     className="btn btn-outline-primary text-white"
                     data-bs-dismiss="modal"
+                    data-bs-target="#exampleModal"
+                    onClick={() => {
+                      setSuccess(false);
+                      setIsLoading(false);
+                      setProgress(0);
+                    }}
                   >
                     <BiArrowBack style={{ fontSize: "25px" }} /> Back Home
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      //Org Modal
+      <div
+        className="modal fade "
+        id="orgModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog ">
+          <div className="modal-content see-more-modal">
+            <div className="modal-header">
+              <h1
+                className="modal-title fs-5 see-more-header"
+                id="exampleModaororlLabel"
+              >
+                {jobData.title}
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body see-more-body">
+              <p>
+                {" "}
+                <span
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                    paddingRight: "2%",
+                    fontStyle: "normal",
+                  }}
+                >
+                  Job posted date:{" "}
+                </span>
+                {jobData.createdAt}
+              </p>
+              <p>
+                <span
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                    paddingRight: "10%",
+                  }}
+                >
+                  Description:{" "}
+                </span>
+                {jobData.description}
+              </p>
+              <p>
+                <span
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                    paddingRight: "6%",
+                    fontStyle: "normal",
+                  }}
+                >
+                  Departement:{" "}
+                </span>
+                {jobData.departement}
+              </p>
+              <p>
+                <span
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                    paddingRight: "16%",
+                    fontStyle: "normal",
+                  }}
+                >
+                  Outdate:{" "}
+                </span>
+                {jobData.outdate}
+              </p>
+              <p>
+                <span
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                    paddingRight: "4%",
+                    fontStyle: "normal",
+                  }}
+                >
+                  Minimum CGPA :
+                </span>
+                {jobData.min_cgpa}
+              </p>
+            </div>
+            <div className="modal-footer see-more-footer">
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>

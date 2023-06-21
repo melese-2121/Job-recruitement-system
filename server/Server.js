@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const { User } = require("./models");
+const { Org } = require("./models");
+const { Post } = require("./models");
 const { Worker_org } = require("./models");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
