@@ -12,7 +12,7 @@ import Requirements from "./components/Document";
 import Admin from "./components/Admin";
 import AddCompany from "./components/AddCompany";
 import SeeCompany from "./components/SeeCompany";
-import NewCompReq from "./components/NewCompReq";
+import NewCompExam from "./components/NewCompExam";
 import OrgsLogin from "./components/OrgsLogin";
 import OrgsProfile from "./components/OrgsProfile";
 import Post_job from "./components/Post_job";
@@ -61,8 +61,8 @@ const App = createBrowserRouter([
     element: <SeeCompany />,
   },
   {
-    path: "/admin/companies/req",
-    element: <NewCompReq />,
+    path: "/admin/companies/exam",
+    element: <NewCompExam />,
   },
   {
     path: "/orgs/login",

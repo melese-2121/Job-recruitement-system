@@ -38,7 +38,7 @@ function PostsForUser({ username }) {
 
   return (
     <div>
-      <ProfileAside searchBy={handleSearchBy} />
+      <ProfileAside searchBy={handleSearchBy} username={username} />
       <div
         style={{
           paddingTop: "4.5%",

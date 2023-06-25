@@ -123,10 +123,7 @@ function Job({ jobData, username }) {
                 className="btn btn-outline-info mt-5 px-4"
                 data-bs-toggle="modal"
                 data-bs-target="#orgModal"
-                onClick={() => {
-                  console.log(jobData);
-                  console.log(ondragend);
-                }}
+                onClick={() => {}}
               >
                 SEE MORE
                 <MdOutlineReadMore
@@ -204,19 +201,18 @@ function Job({ jobData, username }) {
                           <Formik>
                             <Form onSubmit={handleSubmit}>
                               <div className="form-group ">
-                                <label htmlFor="departement">
+                                <label htmlFor={`departement${jobData.id}`}>
                                   Departement:
                                 </label>
                                 <Field
                                   component="select"
-                                  id="departement"
+                                  id={`departement${jobData.id}`}
                                   onChange={(e) =>
                                     setDocument({
                                       ...document,
                                       departement: e.target.value,
                                     })
                                   }
-                                  name="departement"
                                   className="form-select"
                                   aria-label="Health Care"
                                   style={{ boxShadow: "none", width: "100%" }}
@@ -230,7 +226,10 @@ function Job({ jobData, username }) {
                               </div>
                               <div style={{ marginTop: "8%" }}>
                                 <div>
-                                  <label htmlFor="CV" className="form-label">
+                                  <label
+                                    htmlFor={`cv${jobData.id}`}
+                                    className="form-label"
+                                  >
                                     Upload your CV
                                   </label>
                                   <Field
@@ -240,7 +239,7 @@ function Job({ jobData, username }) {
                                       fontSize: "20px",
                                       paddingLeft: "5px",
                                     }}
-                                    id="CV"
+                                    id={`cv${jobData.id}`}
                                     onChange={(e) => {
                                       setImage1(
                                         URL.createObjectURL(e.target.files[0])
@@ -253,13 +252,13 @@ function Job({ jobData, username }) {
                               </div>
                               <div style={{ marginTop: "8%" }}>
                                 <label
-                                  htmlFor="cgpa"
+                                  htmlFor={`cgpa${jobData.id}`}
                                   style={{ color: "white" }}
                                 >
                                   Your CGPA result in number
                                 </label>
                                 <Field
-                                  id="cgpa"
+                                  id={`cgpa${jobData.id}`}
                                   type="number"
                                   required
                                   style={{
@@ -278,7 +277,7 @@ function Job({ jobData, username }) {
                               </div>
                               <div style={{ marginTop: "8%" }}>
                                 <label
-                                  htmlFor="experience"
+                                  htmlFor={`experience${jobData.id}`}
                                   style={{ color: "white" }}
                                 >
                                   Have Experience? If Have, Give Us Your
@@ -290,7 +289,7 @@ function Job({ jobData, username }) {
                                     borderRadius: "10px",
                                     paddingLeft: "10px",
                                   }}
-                                  id="experience"
+                                  id={`experience${jobData.id}`}
                                   type="file"
                                   onChange={(e) =>
                                     setDocument({
@@ -305,14 +304,14 @@ function Job({ jobData, username }) {
                               </div>
                               <div style={{ marginTop: "8%" }}>
                                 <label
-                                  htmlFor="reason"
+                                  htmlFor={`reason${jobData.id}`}
                                   style={{ color: "white" }}
                                 >
                                   Why Apply For The Job?
                                 </label>
                                 <textarea
-                                  name="reason"
-                                  id="reason"
+                                  name={`reason${jobData.id}`}
+                                  id={`reason${jobData.id}`}
                                   cols="30"
                                   rows="4"
                                   onChange={(e) =>
@@ -376,11 +375,11 @@ function Job({ jobData, username }) {
           </div>
         </div>
       </div>
-      //Org Modal
+      {/* Org Modal */}
       <div
         className="modal fade "
         id="orgModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >

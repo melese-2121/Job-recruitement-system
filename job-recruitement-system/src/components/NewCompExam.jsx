@@ -1,11 +1,14 @@
 import { Container } from "react-bootstrap";
 import AdminNavigation from "./subComponents/AdminNavigation";
+import React from "react";
+
+import Exam from "./Exam";
 
 function NewCompReq() {
   return (
     <Container>
       <AdminNavigation />
-      <h3>New Compansy</h3>
+      <Exam />
     </Container>
   );
 }

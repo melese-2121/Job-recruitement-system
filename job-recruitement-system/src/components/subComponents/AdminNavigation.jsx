@@ -6,6 +6,7 @@ function AdminNavigation() {
     container: {
       fontSize: "20px",
       marginLeft: "35%",
+      color: "white",
     },
   };
 
@@ -15,8 +16,7 @@ function AdminNavigation() {
         <Nav className="me-auto">
           <Nav.Link href="/admin">Home </Nav.Link>
           <Nav.Link href="/admin/companies/add">Add </Nav.Link>
-          <Nav.Link href="/admin/companies/see">See </Nav.Link>
-          <Nav.Link href="/admin/companies/req">News</Nav.Link>
+          <Nav.Link href="/admin/companies/exam">Examination</Nav.Link>
         </Nav>
       </Navbar>
     </Container>

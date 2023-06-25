@@ -92,14 +92,11 @@ function Login() {
               autoComplete="off"
             />
           </div>
-          {/* <button
-            
-          > */}
+
           <button
             className="btn btn-outline-success mt-3"
             style={{ width: "100%" }}
             type="submit"
-            reloadDocument
           >
             Login
           </button>

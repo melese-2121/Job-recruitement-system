@@ -11,6 +11,7 @@ export const basicSchema = yup.object().shape({
     .min(8)
     .matches(passwordRules, { message: "Please create a strong password." })
     .required("Required"),
+
   repeatPWD: yup
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match")

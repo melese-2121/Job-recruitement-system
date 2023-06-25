@@ -42,7 +42,6 @@ const login = async (req, res) => {
         });
 
         req.session.username = dbUser.username;
-        console.log(req.session.username);
         res.json({ user: dbUser, username: req.session.username, login: true });
       } else {
         res.send("User not found");
@@ -60,4 +59,88 @@ const cookies = (req, res) => {
   }
 };
 
-module.exports = { register, login, cookies };
+//Find user by username
+const userByUsername = async (req, res) => {
+  const username = req.body.username;
+  try {
+    const user = await User.findOne({
+      where: { username: username },
+    });
+
+    if (user) {
+      res.json({ success: true, user: user });
+    }
+  } catch (error) {
+    res.send({ success: false });
+  }
+};
+
+//Eddit Account
+const editAccount = async (req, res) => {
+  const editData = req.body.data;
+  const username = req.body.username;
+  const currentPassword = req.body.currentPassword;
+
+  try {
+    if (req.body.data) {
+      const account = await User.findOne({ where: { username: username } });
+      let hashedPWD = "";
+      if (account) {
+        hashedPWD = account.password;
+      } else {
+        res.json({ success: true, msg: "User Not Found" });
+      }
+
+      if (currentPassword) {
+        await bcrypt.compare(currentPassword, hashedPWD, (err, response) => {
+          if (response && hashedPWD !== editData.password) {
+            //Hash password
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(editData.password, salt);
+            User.update(
+              {
+                username: editData.username,
+                email: editData.email,
+                password: hash,
+              },
+              {
+                where: {
+                  username: username,
+                },
+              }
+            );
+            req.session.username = editData.username;
+
+            res.json({ success: true, msg: "Account Edited!" });
+          } else {
+            res.json({ success: true, msg: "Account Not Edited!" });
+          }
+        });
+      } else if (account) {
+        if (
+          editData.username !== account.username ||
+          editData.email !== account.email
+        ) {
+          User.update(
+            {
+              username: editData.username,
+              email: editData.email,
+              password: editData.password,
+            },
+            {
+              where: {
+                username: username,
+              },
+            }
+          );
+        }
+
+        res.json({ success: true, msg: "Account Edited!" });
+      }
+    }
+  } catch (error) {
+    res.json({ success: false, msg: "Account Is Not Edited" });
+  }
+};
+
+module.exports = { register, login, cookies, userByUsername, editAccount };
